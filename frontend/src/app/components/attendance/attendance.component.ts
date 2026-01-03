@@ -45,6 +45,11 @@ export class AttendanceComponent implements OnInit {
     request.subscribe({
       next: (data) => {
         this.attendance = data;
+        console.log('Attendance records:', data);
+        this.loading = false;
+      },
+      error: (err) => {
+        console.error('Error loading attendance:', err);
         this.loading = false;
       }
     });

@@ -28,7 +28,7 @@ export class DashboardComponent implements OnInit {
     private router: Router
   ) {
     this.currentUser = this.authService.getCurrentUser();
-    this.isAdmin = this.authService.isAdmin();
+    this.isAdmin = this.authService.isAdmin(); // Returns true for admin and hr
   }
 
   ngOnInit() {

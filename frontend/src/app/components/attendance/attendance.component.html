@@ -10,6 +10,9 @@
       <h3>Mark Today's Attendance</h3>
       <div class="form-row">
         <div class="form-group">
+          <label>Employee: {{ currentUser?.firstName }} {{ currentUser?.lastName }}</label>
+        </div>
+        <div class="form-group">
           <label>Date</label>
           <input type="date" [(ngModel)]="newAttendance.date" />
         </div>
@@ -44,6 +47,7 @@
         <table class="attendance-table">
           <thead>
             <tr>
+              <th *ngIf="isAdmin">Employee</th>
               <th>Date</th>
               <th>Status</th>
               <th>Check-in</th>
@@ -53,6 +57,7 @@
           </thead>
           <tbody>
             <tr *ngFor="let record of attendance">
+              <td *ngIf="isAdmin">{{ record.employeeId || '-' }}</td>
               <td>{{ record.date | date: 'MMM dd, yyyy' }}</td>
               <td>
                 <span
