@@ -1,0 +1,86 @@
+<div class="container">
+  <button (click)="goBack()" class="btn-back">← Back to Dashboard</button>
+
+  <div class="leave-section">
+    <div class="section-header">
+      <h1>🗓️ Leave Management</h1>
+      <button *ngIf="!isAdmin" (click)="showForm = !showForm" class="btn-apply">
+        {{ showForm ? '❌ Cancel' : '➕ Apply for Leave' }}
+      </button>
+    </div>
+
+    <div *ngIf="showForm" class="leave-form">
+      <h3>Apply for Leave</h3>
+      <div class="form-grid">
+        <div class="form-group">
+          <label>Leave Type</label>
+          <select [(ngModel)]="newLeave.leaveType">
+            <option value="paid">Paid Leave</option>
+            <option value="sick">Sick Leave</option>
+            <option value="unpaid">Unpaid Leave</option>
+            <option value="casual">Casual Leave</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Start Date</label>
+          <input type="date" [(ngModel)]="newLeave.startDate" />
+        </div>
+        <div class="form-group">
+          <label>End Date</label>
+          <input type="date" [(ngModel)]="newLeave.endDate" />
+        </div>
+        <div class="form-group">
+          <label>Number of Days</label>
+          <input type="number" [(ngModel)]="newLeave.numberOfDays" />
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Reason</label>
+        <textarea
+          [(ngModel)]="newLeave.reason"
+          placeholder="Mention the reason for leave..."
+          rows="4"
+        ></textarea>
+      </div>
+      <button (click)="applyLeave()" class="btn-submit">Submit Leave Request</button>
+    </div>
+
+    <div class="leaves-list">
+      <h3>{{ isAdmin ? 'All Leave Requests' : 'My Leave Requests' }}</h3>
+      <div *ngIf="loading" class="loading">Loading...</div>
+      <div *ngIf="!loading && leaves.length === 0" class="empty">
+        No leave requests found
+      </div>
+      <div *ngIf="!loading && leaves.length > 0" class="leaves-grid">
+        <div *ngFor="let leave of leaves" class="leave-card">
+          <div class="leave-header">
+            <div>
+              <h4>{{ leave.leaveType | titlecase }} Leave</h4>
+              <p *ngIf="isAdmin" class="employee-name">{{ leave.employeeId?.firstName }} {{ leave.employeeId?.lastName }}</p>
+            </div>
+            <span
+              class="status-badge"
+              [style.background-color]="getStatusColor(leave.status)"
+            >
+              {{ leave.status | titlecase }}
+            </span>
+          </div>
+          <div class="leave-dates">
+            <p>📅 {{ leave.startDate | date: 'MMM dd' }} to {{ leave.endDate | date: 'MMM dd, yyyy' }}</p>
+            <p>📊 {{ leave.numberOfDays }} day(s)</p>
+          </div>
+          <div class="leave-reason">
+            <p><strong>Reason:</strong> {{ leave.reason || 'N/A' }}</p>
+          </div>
+          <div *ngIf="isAdmin && leave.status === 'pending'" class="leave-actions">
+            <button (click)="approveLeave(leave._id)" class="btn-approve">✓ Approve</button>
+            <button (click)="rejectLeave(leave._id)" class="btn-reject">✗ Reject</button>
+          </div>
+          <div *ngIf="leave.comments" class="leave-comments">
+            <p><strong>Comments:</strong> {{ leave.comments }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,106 @@
+<div class="dashboard-container">
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <h2>🌅 Dayflow</h2>
+    </div>
+
+    <nav class="sidebar-nav">
+      <div class="nav-section">
+        <p class="nav-section-title">MAIN</p>
+        <a (click)="activeTab = 'overview'" [class.active]="activeTab === 'overview'" class="nav-item">
+          📊 Dashboard
+        </a>
+        <a (click)="navigateTo('profile')" class="nav-item">👤 My Profile</a>
+        <a (click)="navigateTo('attendance')" class="nav-item">📋 Attendance</a>
+        <a (click)="navigateTo('leave')" class="nav-item">🗓️ Leave Requests</a>
+        <a (click)="navigateTo('payroll')" class="nav-item">💰 Payroll</a>
+      </div>
+
+      <div *ngIf="isAdmin" class="nav-section">
+        <p class="nav-section-title">ADMIN</p>
+        <a (click)="navigateTo('employees')" class="nav-item">👥 Manage Employees</a>
+        <a (click)="navigateTo('admin-leave')" class="nav-item">📝 Approve Leave</a>
+        <a (click)="navigateTo('admin-payroll')" class="nav-item">💸 Manage Payroll</a>
+      </div>
+
+      <div class="nav-section">
+        <button (click)="logout()" class="btn-logout">🚪 Logout</button>
+      </div>
+    </nav>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <!-- Header -->
+    <header class="header">
+      <div class="header-title">
+        <h1>Welcome, {{ currentUser?.firstName }} 👋</h1>
+        <p class="subtitle">{{ currentUser?.role === 'employee' ? 'Employee Dashboard' : 'Admin Dashboard' }}</p>
+      </div>
+      <div class="header-user">
+        <span>{{ currentUser?.email }}</span>
+      </div>
+    </header>
+
+    <!-- Content Area -->
+    <section class="content">
+      <!-- Overview Tab -->
+      <div *ngIf="activeTab === 'overview'" class="dashboard-grid">
+        <div class="dashboard-card card-profile">
+          <div class="card-icon">👤</div>
+          <div class="card-content">
+            <h3>My Profile</h3>
+            <p>View and manage your information</p>
+          </div>
+          <a (click)="navigateTo('profile')" class="card-action">→</a>
+        </div>
+
+        <div class="dashboard-card card-attendance">
+          <div class="card-icon">📋</div>
+          <div class="card-content">
+            <h3>Attendance</h3>
+            <p>Track your daily attendance</p>
+          </div>
+          <a (click)="navigateTo('attendance')" class="card-action">→</a>
+        </div>
+
+        <div class="dashboard-card card-leave">
+          <div class="card-icon">🗓️</div>
+          <div class="card-content">
+            <h3>Leave Requests</h3>
+            <p>Apply and manage your leave</p>
+          </div>
+          <a (click)="navigateTo('leave')" class="card-action">→</a>
+        </div>
+
+        <div class="dashboard-card card-payroll">
+          <div class="card-icon">💰</div>
+          <div class="card-content">
+            <h3>Payroll</h3>
+            <p>View your salary information</p>
+          </div>
+          <a (click)="navigateTo('payroll')" class="card-action">→</a>
+        </div>
+
+        <div *ngIf="isAdmin" class="dashboard-card card-employees">
+          <div class="card-icon">👥</div>
+          <div class="card-content">
+            <h3>Manage Employees</h3>
+            <p>View and manage all employees</p>
+          </div>
+          <a (click)="navigateTo('employees')" class="card-action">→</a>
+        </div>
+
+        <div *ngIf="isAdmin" class="dashboard-card card-approvals">
+          <div class="card-icon">✅</div>
+          <div class="card-content">
+            <h3>Approvals</h3>
+            <p>Approve leave requests</p>
+          </div>
+          <a (click)="navigateTo('admin-leave')" class="card-action">→</a>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>

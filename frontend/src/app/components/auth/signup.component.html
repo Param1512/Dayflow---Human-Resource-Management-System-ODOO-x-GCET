@@ -1,0 +1,85 @@
+<div class="auth-container">
+  <div class="auth-card">
+    <div class="auth-header">
+      <h1>🌅 Dayflow</h1>
+      <p>Human Resource Management System</p>
+    </div>
+
+    <form class="auth-form" (ngSubmit)="signup()">
+      <h2>Create Account</h2>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>First Name</label>
+          <input
+            type="text"
+            [(ngModel)]="form.firstName"
+            name="firstName"
+            placeholder="First name"
+          />
+        </div>
+        <div class="form-group">
+          <label>Last Name</label>
+          <input
+            type="text"
+            [(ngModel)]="form.lastName"
+            name="lastName"
+            placeholder="Last name"
+          />
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Employee ID</label>
+        <input
+          type="text"
+          [(ngModel)]="form.employeeId"
+          name="employeeId"
+          placeholder="EMP001"
+          required
+        />
+      </div>
+
+      <div class="form-group">
+        <label>Email</label>
+        <input
+          type="email"
+          [(ngModel)]="form.email"
+          name="email"
+          placeholder="your@email.com"
+          required
+        />
+      </div>
+
+      <div class="form-group">
+        <label>Password</label>
+        <input
+          type="password"
+          [(ngModel)]="form.password"
+          name="password"
+          placeholder="Secure password"
+          required
+        />
+      </div>
+
+      <div class="form-group">
+        <label>Role</label>
+        <select [(ngModel)]="form.role" name="role" class="form-select">
+          <option value="employee">Employee</option>
+          <option value="hr">HR Officer</option>
+          <option value="admin">Admin</option>
+        </select>
+      </div>
+
+      <div *ngIf="error" class="error-message">{{ error }}</div>
+
+      <button [disabled]="loading" class="btn-primary">
+        {{ loading ? 'Creating Account...' : 'Sign Up' }}
+      </button>
+    </form>
+
+    <div class="auth-footer">
+      <p>Already have an account? <a (click)="goToSignin()" class="link">Sign In</a></p>
+    </div>
+  </div>
+</div>

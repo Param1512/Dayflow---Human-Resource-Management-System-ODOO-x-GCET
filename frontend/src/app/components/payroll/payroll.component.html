@@ -1,0 +1,86 @@
+<div class="container">
+  <button (click)="goBack()" class="btn-back">← Back to Dashboard</button>
+
+  <div class="payroll-section">
+    <div class="section-header">
+      <h1>💰 Payroll Information</h1>
+    </div>
+
+    <div *ngIf="loading" class="loading">Loading payroll data...</div>
+    <div *ngIf="!loading && payroll.length === 0" class="empty">
+      No payroll records found
+    </div>
+
+    <div *ngIf="!loading && payroll.length > 0" class="payroll-grid">
+      <div *ngFor="let record of payroll" class="payroll-card">
+        <div class="payroll-header">
+          <div>
+            <h3>{{ record.month }}/{{ record.year }}</h3>
+            <p *ngIf="isAdmin" class="employee-name">
+              {{ record.employeeId?.firstName }} {{ record.employeeId?.lastName }}
+            </p>
+          </div>
+          <span
+            class="status-badge"
+            [style.background-color]="getStatusColor(record.paymentStatus)"
+          >
+            {{ record.paymentStatus | titlecase }}
+          </span>
+        </div>
+
+        <div class="payroll-details">
+          <div class="detail-row">
+            <span>Base Salary</span>
+            <strong>₹ {{ record.baseSalary | number }}</strong>
+          </div>
+          <div class="detail-row">
+            <span>Allowances</span>
+            <strong style="color: #28a745">+₹ {{ (record.allowances?.hra || 0) + (record.allowances?.da || 0) + (record.allowances?.other || 0) | number }}</strong>
+          </div>
+          <div class="detail-row">
+            <span>Deductions</span>
+            <strong style="color: #dc3545">-₹ {{ (record.deductions?.pf || 0) + (record.deductions?.tax || 0) + (record.deductions?.insurance || 0) + (record.deductions?.other || 0) | number }}</strong>
+          </div>
+        </div>
+
+        <div class="payroll-breakdown">
+          <div class="breakdown-item">
+            <span>HRA</span>
+            <span>₹ {{ record.allowances?.hra || 0 | number }}</span>
+          </div>
+          <div class="breakdown-item">
+            <span>DA</span>
+            <span>₹ {{ record.allowances?.da || 0 | number }}</span>
+          </div>
+          <div class="breakdown-item">
+            <span>PF</span>
+            <span>₹ {{ record.deductions?.pf || 0 | number }}</span>
+          </div>
+          <div class="breakdown-item">
+            <span>Tax</span>
+            <span>₹ {{ record.deductions?.tax || 0 | number }}</span>
+          </div>
+        </div>
+
+        <div class="payroll-summary">
+          <div class="summary-item">
+            <span>Total Earnings</span>
+            <strong>₹ {{ record.totalEarnings | number }}</strong>
+          </div>
+          <div class="summary-item">
+            <span>Total Deductions</span>
+            <strong>₹ {{ record.totalDeductions | number }}</strong>
+          </div>
+          <div class="summary-item highlight">
+            <span>Net Salary</span>
+            <strong>₹ {{ record.netSalary | number }}</strong>
+          </div>
+        </div>
+
+        <div *ngIf="record.paymentDate" class="payroll-date">
+          <p>💳 Paid on: {{ record.paymentDate | date: 'MMM dd, yyyy' }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
