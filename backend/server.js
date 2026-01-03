@@ -11,7 +11,8 @@ app.use(cors({
     const allowedOrigins = [
       "http://localhost:3000",
       "http://localhost:4200",
-      "https://test-1-neok.onrender.com"
+      "https://test-1-neok.onrender.com",
+      "https://second-orcin.vercel.app"
     ];
     
     // Allow requests with no origin (like mobile apps or Postman)
@@ -28,6 +29,10 @@ app.use(cors({
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"]
 }));
+
+// IMPORTANT — allow preflight
+app.options("*", cors());
+
 app.use(express.json());
 app.use(express.urlencoded({ limit: '50mb', extended: true }));
 
