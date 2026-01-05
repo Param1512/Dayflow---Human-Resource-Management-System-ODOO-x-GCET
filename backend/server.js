@@ -31,17 +31,22 @@ const attendanceRoutes = require('./routes/attendance');
 const leaveRoutes = require('./routes/leave');
 const payrollRoutes = require('./routes/payroll');
 
+// Root route
+app.get("/", (req, res) => {
+  res.send("Dayflow HRMS API is running");
+});
+
+// Health Check
+app.get("/api/health", (req, res) => {
+  res.status(200).json({ status: "ok" });
+});
+
 // Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/employees', employeeRoutes);
 app.use('/api/attendance', attendanceRoutes);
 app.use('/api/leave', leaveRoutes);
 app.use('/api/payroll', payrollRoutes);
-
-// Health Check
-app.get('/api/health', (req, res) => {
-  res.json({ status: 'Server is running', timestamp: new Date() });
-});
 
 // Start Server
 const PORT = process.env.PORT || 5000;
